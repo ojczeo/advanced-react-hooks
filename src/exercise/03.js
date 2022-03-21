@@ -4,7 +4,7 @@
 import * as React from 'react'
 
 // 🐨 create your CountContext here with React.createContext
-const CountContext = React.createContext()
+const CountContext = React.createContext([0, () => []])
 
 function CountProvider(props) {
     const [count, setCount] = React.useState(0)
@@ -19,8 +19,12 @@ function CountDisplay() {
 }
 
 function Counter() {
+    const context = React.useContext(CountContext)
+    if (!context) {
+        throw new Error(`No context `)
+    }
   // 🐨 get the setCount from useContext with the CountContext
-    const [, setCount] = React.useContext(CountContext);
+    const [, setCount] = context
   const increment = () => setCount(c => c + 1)
   return <button onClick={increment}>Increment count</button>
 }
